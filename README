@@ -1,0 +1,29 @@
+This is a mirror of http://www.vim.org/scripts/script.php?script_id=1279
+
+This allows "toggling" of more complex operations, like switching off "diffthis".  It also reduces the number of key mappings used overall by placing the operations under a key activated command window menu, i.e. if the key map is <leader>o  and <leader> is ",":
+     ,o
+displays an option list in the command window:
+     wrap, Wrapscan, list, binary, modifiable, diff, virtualedit, uhex
+so the full command
+    ,od
+toggles "diff" mode on/off for a window (including foldcolumn=0)
+    ,om
+toggles "modifiable" and "readonly" together.
+
+You should edit the script to add what want.  E.g.  add your item to the menu call string:
+
+    let l:char = s:Char_menu( "{w}rap, {W}rapscan, {l}ist, {b}inary, {m}odifiable, {d}iff, {v}irtualedit, uhe{x}" )
+
+where {text} is in a different color, then add an elseif clause:
+
+    elseif l:char ==# 'm'
+        if &modifiable && !&readonly
+            set nomodifiable
+            set readonly
+        else
+            set modifiable
+            set noreadonly
+        endif
+        set readonly?
+        set modifiable?
+
